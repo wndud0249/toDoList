@@ -4,6 +4,8 @@ import {
   LIST_TODOS_REQUEST,
   MOVE_FINISHED_TODO_REQUEST,
   MOVE_TODO_FINISHED_REQUEST,
+  SEARCH_FINISHED_REQUEST,
+  SEARCH_TODOS_REQUEST,
 } from './actionTypes';
 
 export interface Todo {
@@ -15,15 +17,31 @@ export interface Todo {
     completed: boolean;
     date: string;
   }[];
+  searchedTodos: {
+    id: number;
+    importance: number;
+    todo: string;
+    completed: boolean;
+    date: string;
+  }[];
+  searchedFinished: {
+    id: number;
+    importance: number;
+    todo: string;
+    completed: boolean;
+    date: string;
+  }[];
+  searchState: boolean;
+}
+
+export interface InsertTodoRequestAction {
+  type: typeof INSERT_TODO_REQUEST;
+  todo: { id: number; importance: number; todo: string; completed: boolean; date: string }[];
 }
 
 export interface ListTodosRequestAction {
   type: typeof LIST_TODOS_REQUEST;
   todos: Todo;
-}
-export interface InsertTodoRequestAction {
-  type: typeof INSERT_TODO_REQUEST;
-  todo: { id: number; importance: number; todo: string; completed: boolean; date: string }[];
 }
 
 export interface DeleteTodoRequestAction {
@@ -41,9 +59,20 @@ export interface MoveFinishedTodoRequestAction {
   finishedId: number;
 }
 
+export interface SearchTodosRequestAction {
+  type: typeof SEARCH_TODOS_REQUEST;
+  searchKey: string;
+}
+export interface SearchFinishedRequestAction {
+  type: typeof SEARCH_FINISHED_REQUEST;
+  searchKey: string;
+}
+
 export type TodoAction =
-  | ListTodosRequestAction
   | InsertTodoRequestAction
+  | ListTodosRequestAction
   | DeleteTodoRequestAction
   | MoveTodoFinishedRequestAction
-  | MoveFinishedTodoRequestAction;
+  | MoveFinishedTodoRequestAction
+  | SearchTodosRequestAction
+  | SearchFinishedRequestAction;

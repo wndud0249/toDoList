@@ -24,18 +24,21 @@ const Paging = ({
         : parseInt(e.currentTarget.dataset.pagenum || '')
     );
   };
+
   const onClickPrev = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (!nowPage) return;
     if (nowPage === 1) return;
     onChangePage(nowPage - 1);
   };
+
   const onClickNext = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (!nowPage) return;
     if (nowPage === allPageNumbers) return;
     onChangePage(nowPage + 1);
   };
+
   return (
     <div className="pagination">
       <button className="prev" onClick={onClickPrev} disabled={nowPage === 1}>

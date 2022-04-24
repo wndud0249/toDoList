@@ -1,36 +1,4 @@
-body {
-  background-color: #000;
-  color: #fff;
-}
-.container {
-  width: 1280px;
-  margin: 0 auto;
-  margin-top: 100px;
-  margin-bottom: 100px;
-  .page-title {
-    text-align: center;
-    margin: 150px auto 50px auto;
-    font-size: 40px;
-    color: #fff;
-    animation: flicker 1.5s infinite alternate;
-    &.main {
-      animation: none;
-      color: #fff;
-    }
-  }
-  .count-menu {
-    text-align: right;
-    width: 1000px;
-    height: 30px;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    select {
-      width: 120px;
-      height: 30px;
-    }
-  }
-}
-
+/* To do 페이지 */
 .todo-wrapper {
   width: 1000px;
   margin: 0 auto;
@@ -108,7 +76,6 @@ body {
         }
         .todo-importance {
           width: 130px;
-
           svg {
             fill: #f7f73b;
             width: 20px;
@@ -142,49 +109,6 @@ body {
       text-align: center;
       font-size: 30px;
     }
-  }
-}
-
-.pagination {
-  width: 100%;
-  justify-content: center;
-  display: flex;
-  position: absolute;
-  bottom: 20px;
-  button {
-    margin: 5px;
-    border: 1px solid #fff;
-    border-radius: 5px;
-    width: 35px;
-    height: 30px;
-    background-color: #fff;
-    &.focused {
-      background-color: #000;
-      color: white;
-      font-weight: 900;
-    }
-    &:hover {
-      cursor: pointer;
-    }
-    &.prev,
-    &.next {
-      background-color: #000;
-      color: white;
-      font-weight: 900;
-    }
-  }
-}
-
-button.primary {
-  background-color: #000;
-  border: 1px solid #fff;
-  color: #fff;
-  height: 25px;
-  cursor: pointer;
-  &:hover {
-    color: #f0f252;
-    font-weight: 700;
-    border: 1px solid #f0f252;
   }
 }
 

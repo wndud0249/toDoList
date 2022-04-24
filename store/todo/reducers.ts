@@ -5,12 +5,17 @@ import {
   LIST_TODOS_REQUEST,
   MOVE_FINISHED_TODO_REQUEST,
   MOVE_TODO_FINISHED_REQUEST,
+  SEARCH_FINISHED_REQUEST,
+  SEARCH_TODOS_REQUEST,
 } from './actionTypes';
 import { Todo, TodoAction } from './types';
 
 const initialState: Todo = {
   todos: data,
   finishedTodos: [],
+  searchedTodos: [],
+  searchedFinished: [],
+  searchState: false,
 };
 
 const todoReducer = (state = initialState, action: TodoAction) => {
@@ -47,6 +52,20 @@ const todoReducer = (state = initialState, action: TodoAction) => {
         finishedTodos: state.finishedTodos.filter(
           (finishedItem) => finishedItem.id !== action.finishedId
         ),
+      };
+    case SEARCH_TODOS_REQUEST:
+      return {
+        ...state,
+        searchedTodos: state.todos.filter((todo) => todo.todo.includes(action.searchKey)),
+        searchState: true,
+      };
+    case SEARCH_FINISHED_REQUEST:
+      return {
+        ...state,
+        searchedFinished: state.finishedTodos.filter((finished) =>
+          finished.todo.includes(action.searchKey)
+        ),
+        searchState: true,
       };
     default:
       return state;
