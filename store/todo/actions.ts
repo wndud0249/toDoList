@@ -27,3 +27,5 @@ export const moveTodoFinished = ({ todoId }: { todoId: number }) => ({
 });
 export const updateTodo = () => ({});
 export const searchTodo = () => ({});
+
+export const moveFinishedTodo = {};

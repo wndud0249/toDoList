@@ -13,7 +13,7 @@ const Index = () => {
   const dispatch = useDispatch();
   const { todos } = useSelector((state: RootState) => state.todo);
   const [newTodos, setNewTodos] = useState(todos.filter((todo, index) => index < 10));
-  const [newTodoId, setNewTodoId] = useState(todos[todos.length - 1].id + 1);
+  const [newTodoId, setNewTodoId] = useState(todos[todos.length - 1].id + 2);
   const [importanceDescend, setImportanceDescend] = useState(true);
   const [dateDescend, setDateDescend] = useState(true);
   const [newTodo, setNewTodo] = useState([
@@ -29,9 +29,9 @@ const Index = () => {
   const [pageCountNum, setPageCountNum] = useState(10);
   const [totalCount, setTotalCount] = useState(todos.length);
   const newTodoName = useRef<HTMLInputElement>(null);
-
+  console.log(todos.length);
   useEffect(() => {
-    setNewTodos(
+    const set = new Set(
       todos
         .sort((a, b) =>
           importanceDescend ? a.importance - b.importance : b.importance - a.importance
@@ -41,10 +41,13 @@ const Index = () => {
             index + 1 > (pageNum - 1) * pageCountNum && index + 1 < pageNum * pageCountNum + 1
         )
     );
+    console.log(set);
+    setNewTodos([...set]);
+    setTotalCount(todos.length);
   }, [importanceDescend]);
 
   useEffect(() => {
-    setNewTodos(
+    const set = new Set(
       todos
         .sort((a, b) =>
           dateDescend
@@ -56,6 +59,9 @@ const Index = () => {
             index + 1 > (pageNum - 1) * pageCountNum && index + 1 < pageNum * pageCountNum + 1
         )
     );
+    console.log(set);
+    setNewTodos([...set]);
+    setTotalCount(todos.length);
   }, [dateDescend]);
 
   useEffect(() => {
@@ -69,6 +75,10 @@ const Index = () => {
     );
     setTotalCount(todos.length);
   }, [todos]);
+
+  useEffect(() => {
+    setNewTodos(newTodos);
+  }, [newTodos]);
 
   const onChangePage = (value: number) => {
     setPageNum(value);
@@ -112,12 +122,12 @@ const Index = () => {
 
   const onClickAddTodo = () => {
     console.log(newTodoId);
-    dispatch(insertTodo(newTodo));
     setNewTodoId(newTodoId + 1);
+    dispatch(insertTodo(newTodo));
     setNewTodo(
       newTodo.map((todoItem) => {
         return {
-          id: newTodoId,
+          id: newTodoId + 1,
           importance: 0,
           todo: '',
           completed: false,
@@ -153,7 +163,7 @@ then, type "${e.currentTarget.dataset.todoName}"`
     setDateDescend(!dateDescend);
   };
 
-  console.log(newTodoId);
+  console.log(newTodos.length);
 
   return (
     <Layout>
@@ -258,32 +268,34 @@ then, type "${e.currentTarget.dataset.todoName}"`
                 </div>
                 <div className="todo-finished">finished</div>
               </li>
-              {newTodos.map((todo) => (
-                <li key={todo.id} className="listTodo-contents">
-                  <div className="todo-name">{todo.todo}</div>
-                  <div className="todo-importance">
-                    {Array.from(Array(todo.importance + 1).keys()).map((arr, index) => (
-                      <svg key={index} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                        <path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <div className="todo-date">{moment(todo.date).format('YYYY-MM-DD HH:mm')}</div>
-                  <div className="todo-finished">
-                    <button className="primary" data-todo-id={todo.id} onClick={onClickDone}>
-                      done!
-                    </button>
-                    <button
-                      className="primary"
-                      data-todo-id={todo.id}
-                      data-todo-name={todo.todo}
-                      onClick={onClickDeleteTodo}
-                    >
-                      remove!
-                    </button>
-                  </div>
-                </li>
-              ))}
+              {newTodos &&
+                newTodos.length > 0 &&
+                newTodos.map((todo) => (
+                  <li key={todo.id} className="listTodo-contents">
+                    <div className="todo-name">{todo.todo}</div>
+                    <div className="todo-importance">
+                      {Array.from(Array(todo.importance + 1).keys()).map((arr, index) => (
+                        <svg key={index} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                          <path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <div className="todo-date">{moment(todo.date).format('YYYY-MM-DD HH:mm')}</div>
+                    <div className="todo-finished">
+                      <button className="primary" data-todo-id={todo.id} onClick={onClickDone}>
+                        done!
+                      </button>
+                      <button
+                        className="primary"
+                        data-todo-id={todo.id}
+                        data-todo-name={todo.todo}
+                        onClick={onClickDeleteTodo}
+                      >
+                        remove!
+                      </button>
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
           <Paging
