@@ -32,10 +32,40 @@ const Index = () => {
 
   useEffect(() => {
     setNewTodos(
-      todos.filter(
-        (todo, index) =>
-          index + 1 > (pageNum - 1) * pageCountNum && index + 1 < pageNum * pageCountNum + 1
-      )
+      todos
+        .sort((a, b) =>
+          importanceDescend ? a.importance - b.importance : b.importance - a.importance
+        )
+        .filter(
+          (todo, index) =>
+            index + 1 > (pageNum - 1) * pageCountNum && index + 1 < pageNum * pageCountNum + 1
+        )
+    );
+  }, [importanceDescend]);
+
+  useEffect(() => {
+    setNewTodos(
+      todos
+        .sort((a, b) =>
+          dateDescend
+            ? new Date(a.date).getTime() - new Date(b.date).getTime()
+            : new Date(b.date).getTime() - new Date(a.date).getTime()
+        )
+        .filter(
+          (todo, index) =>
+            index + 1 > (pageNum - 1) * pageCountNum && index + 1 < pageNum * pageCountNum + 1
+        )
+    );
+  }, [dateDescend]);
+
+  useEffect(() => {
+    setNewTodos(
+      todos
+        .sort((a, b) => a.id - b.id)
+        .filter(
+          (todo, index) =>
+            index + 1 > (pageNum - 1) * pageCountNum && index + 1 < pageNum * pageCountNum + 1
+        )
     );
     setTotalCount(todos.length);
   }, [todos]);
@@ -122,34 +152,6 @@ then, type "${e.currentTarget.dataset.todoName}"`
   const onClickDate = () => {
     setDateDescend(!dateDescend);
   };
-
-  useEffect(() => {
-    setNewTodos(
-      todos
-        .sort((a, b) =>
-          importanceDescend ? a.importance - b.importance : b.importance - a.importance
-        )
-        .filter(
-          (todo, index) =>
-            index + 1 > (pageNum - 1) * pageCountNum && index + 1 < pageNum * pageCountNum + 1
-        )
-    );
-  }, [importanceDescend]);
-
-  useEffect(() => {
-    setNewTodos(
-      todos
-        .sort((a, b) =>
-          dateDescend
-            ? new Date(a.date).getTime() - new Date(b.date).getTime()
-            : new Date(b.date).getTime() - new Date(a.date).getTime()
-        )
-        .filter(
-          (todo, index) =>
-            index + 1 > (pageNum - 1) * pageCountNum && index + 1 < pageNum * pageCountNum + 1
-        )
-    );
-  }, [dateDescend]);
 
   console.log(newTodoId);
 
