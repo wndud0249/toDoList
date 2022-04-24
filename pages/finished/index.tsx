@@ -1,11 +1,14 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import Layout from '../../components/Layout';
 import Paging from '../../components/Paging';
 import { RootState } from '../../store';
+import { moveFinishedTodo } from '../../store/todo/actions';
 
 const Index = () => {
+  const dispatch = useDispatch();
   const { finishedTodos } = useSelector((state: RootState) => state.todo);
 
   const [newFinishedTodos, setNewFinishedTodos] = useState(
@@ -33,6 +36,10 @@ const Index = () => {
           index + 1 > (value - 1) * pageCountNum && index + 1 < value * pageCountNum + 1
       )
     );
+  };
+  const onClickRestore = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!e.currentTarget.dataset.finishedId) return;
+    dispatch(moveFinishedTodo({ finishedId: parseInt(e.currentTarget.dataset.finishedId) }));
   };
 
   return (
@@ -76,18 +83,10 @@ const Index = () => {
                     <div className="todo-finished">
                       <button
                         className="primary"
-                        data-todo-id={todo.id}
-                        // onClick={onClickDone}
+                        data-finished-id={todo.id}
+                        onClick={onClickRestore}
                       >
-                        done!
-                      </button>
-                      <button
-                        className="primary"
-                        data-todo-id={todo.id}
-                        data-todo-name={todo.todo}
-                        // onClick={onClickDeleteTodo}
-                      >
-                        remove!
+                        restore!
                       </button>
                     </div>
                   </li>

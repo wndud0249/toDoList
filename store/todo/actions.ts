@@ -2,6 +2,7 @@ import {
   DELETE_TODO_REQUEST,
   INSERT_TODO_REQUEST,
   LIST_TODOS_REQUEST,
+  MOVE_FINISHED_TODO_REQUEST,
   MOVE_TODO_FINISHED_REQUEST,
 } from './actionTypes';
 
@@ -28,4 +29,7 @@ export const moveTodoFinished = ({ todoId }: { todoId: number }) => ({
 export const updateTodo = () => ({});
 export const searchTodo = () => ({});
 
-export const moveFinishedTodo = {};
+export const moveFinishedTodo = ({ finishedId }: { finishedId: number }) => ({
+  type: MOVE_FINISHED_TODO_REQUEST,
+  finishedId,
+});

@@ -3,6 +3,7 @@ import {
   DELETE_TODO_REQUEST,
   INSERT_TODO_REQUEST,
   LIST_TODOS_REQUEST,
+  MOVE_FINISHED_TODO_REQUEST,
   MOVE_TODO_FINISHED_REQUEST,
 } from './actionTypes';
 import { Todo, TodoAction } from './types';
@@ -36,6 +37,16 @@ const todoReducer = (state = initialState, action: TodoAction) => {
           state.todos.filter((todoItem) => todoItem.id === action.todoId)[0]
         ),
         todos: state.todos.filter((todoItem) => todoItem.id !== action.todoId),
+      };
+    case MOVE_FINISHED_TODO_REQUEST:
+      return {
+        ...state,
+        todos: state.todos.concat(
+          state.finishedTodos.filter((finishedItem) => finishedItem.id === action.finishedId)[0]
+        ),
+        finishedTodos: state.finishedTodos.filter(
+          (finishedItem) => finishedItem.id !== action.finishedId
+        ),
       };
     default:
       return state;

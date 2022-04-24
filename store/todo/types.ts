@@ -2,6 +2,7 @@ import {
   DELETE_TODO_REQUEST,
   INSERT_TODO_REQUEST,
   LIST_TODOS_REQUEST,
+  MOVE_FINISHED_TODO_REQUEST,
   MOVE_TODO_FINISHED_REQUEST,
 } from './actionTypes';
 
@@ -35,8 +36,14 @@ export interface MoveTodoFinishedRequestAction {
   todoId: number;
 }
 
+export interface MoveFinishedTodoRequestAction {
+  type: typeof MOVE_FINISHED_TODO_REQUEST;
+  finishedId: number;
+}
+
 export type TodoAction =
   | ListTodosRequestAction
   | InsertTodoRequestAction
   | DeleteTodoRequestAction
-  | MoveTodoFinishedRequestAction;
+  | MoveTodoFinishedRequestAction
+  | MoveFinishedTodoRequestAction;
